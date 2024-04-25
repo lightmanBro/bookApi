@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/books")
@@ -33,6 +30,8 @@ public class BookController {
                     .body("Book with title '" + book.getTitle() + "' already exists");
         } else {
             // Add the book as a new book
+            List<String> contributors = book.getContributors();
+            book.setContributors(contributors);
             Book addedBook = bookService.addBook(book);
             return ResponseEntity.status(HttpStatus.CREATED).body(addedBook);
         }
@@ -51,10 +50,10 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(updatedBook).getBody();
     }
 //
-@DeleteMapping("/{id}")
-public ResponseEntity<String> deleteBook(@PathVariable String id) {
-    bookService.deleteBook(id);
-    return ResponseEntity.status(HttpStatus.OK)
-            .body("Book with ID '" + id + "' has been deleted");
-}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteBook(@PathVariable String id) {
+        bookService.deleteBook(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Book with ID '" + id + "' has been deleted");
+    }
 }

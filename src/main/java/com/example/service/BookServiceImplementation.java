@@ -7,13 +7,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BookServiceImplementation implements BookService{
+public class BookServiceImplementation implements BookService {
+
     @Autowired
     private BookRepository bookRepository;
+
     @Override
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
+
     @Override
     public Book addBook(Book book) {
         return bookRepository.save(book);
@@ -21,7 +24,7 @@ public class BookServiceImplementation implements BookService{
 
     @Override
     public void deleteBook(String id) {
-
+        bookRepository.deleteById(id);
     }
 
     @Override
@@ -37,6 +40,6 @@ public class BookServiceImplementation implements BookService{
 
     @Override
     public boolean existsByTitle(String title) {
-        return false;
+        return bookRepository.existsByTitle(title);
     }
 }
